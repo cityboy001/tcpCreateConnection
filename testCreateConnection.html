@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>testCreateConnection</title>
+  </head>
+  <body>
+    <script src="./tcpConnection.js"></script>
+    <script>
+      const client = new Client();
+      const wire = new Wire();
+
+      const client1 = new Client();
+      const wire1 = new Wire();
+
+      const server = new Server();
+
+      server.listen(wire);
+      server.listen(wire1);
+
+      async function main() {
+        await client.connect(wire, server.number);
+        await client1.connect(wire1, server.number);
+        console.log("server: ", server);
+        console.log("client: ", client);
+        console.log("client1: ", client1);
+
+        server.postDataToClient(client1.number, "我是服务端");
+        client1.postDataToServer("我是客户端1啊");
+      }
+      main();
+    </script>
+  </body>
+</html>
